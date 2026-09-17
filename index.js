@@ -24,6 +24,11 @@ const readFile = (filename) => {
 }
 
 app.get("/", (req, res) => {
+
+    let error = null
+    if(req.body.task.trim().length == 0){
+        error = "Please insert correct task data"
+    } 
     readFile("./tasks.json")
         .then(tasks => {
             console.log(tasks)
@@ -32,8 +37,16 @@ app.get("/", (req, res) => {
 })
 
 app.post("/", (req, res) =>{
+    let error = null
+    if(req.body.task.trim(). length == 0){
+        error = "Please insert correct task data"  
     readFile("./tasks.json")
         .then(tasks => {
+            res.render("index", {
+                tasks: tasks,
+                error: error
+            )}
+        })   
             let index
             if (tasks.length === 0)
             {  
@@ -60,7 +73,7 @@ app.post("/", (req, res) =>{
                 } 
                 res.redirect("/")
             }) 
-        }) 
+        } 
 })
 
 app.get("/delete-task/:taskId", (req, res) => {
